@@ -4,6 +4,7 @@ import com.eazybytes.eazyschool.eazyschool.model.Holiday;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.reflect.Array;
@@ -16,9 +17,10 @@ import java.util.stream.Collectors;
 @Controller
 public class HolidaysController {
 
-    @GetMapping("/holiday")
-    public String showHolidays(Model model) {
-
+    @GetMapping("/holidays")
+    public String showHolidays(@RequestParam(defaultValue = "true") boolean festival, @RequestParam(defaultValue = "true") boolean federal, Model model) {
+        model.addAttribute("festival", festival);
+        model.addAttribute("federal", federal);
         List<Holiday> holidays = Arrays.asList(
                 new Holiday(" Jan 1 ", "New Year's Day", Holiday.Type.FESTIVAL),
                 new Holiday(" Oct 31 ", "Halloween", Holiday.Type.FESTIVAL),
