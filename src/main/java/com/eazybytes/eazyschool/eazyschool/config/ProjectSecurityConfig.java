@@ -16,7 +16,7 @@ public class ProjectSecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf->csrf.disable())
                 .authorizeHttpRequests((requests) -> requests.requestMatchers("/", "/home").permitAll()
-                        .requestMatchers("/holidays/**").permitAll()
+                        .requestMatchers("/holidays/**").authenticated()
                         .requestMatchers("/contact").permitAll()
                         .requestMatchers("/saveMsg").permitAll()
                         .requestMatchers("/courses").permitAll()
@@ -26,6 +26,19 @@ public class ProjectSecurityConfig {
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }
-
+    @Bean
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
+        UserDetails user= User.withDefaultPasswordEncoder()
+                .username("user")
+                .password("1234")
+                .roles("USER")
+                .build();
+        UserDetails admin = User.withDefaultPasswordEncoder()
+                .username("admin")
+                .password("1234")
+                .roles("ADMIN")
+                .build();
+        return new InMemoryUserDetailsManager(user,admin);
+    }
 
 }
