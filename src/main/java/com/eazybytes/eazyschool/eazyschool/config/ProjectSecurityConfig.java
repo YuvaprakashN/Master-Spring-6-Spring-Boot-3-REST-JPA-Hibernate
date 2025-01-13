@@ -14,7 +14,7 @@ public class ProjectSecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.ignoringRequestMatchers("/saveMsg"))
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/saveMsg").ignoringRequestMatchers("/public/**"))
                 .authorizeHttpRequests((requests) ->
                         requests.requestMatchers("/dashboard").authenticated()
                                 .requestMatchers("/", "/home").permitAll()
@@ -27,7 +27,8 @@ public class ProjectSecurityConfig {
                                 .requestMatchers("/about").permitAll()
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/logout").permitAll()
-                                .requestMatchers("/assets/**").permitAll())
+                                .requestMatchers("/assets/**").permitAll()
+                                .requestMatchers("/public/**").permitAll())
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.loginPage("/login")
                         .defaultSuccessUrl("/dashboard").failureUrl("/login?error=true").permitAll())
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer.logoutSuccessUrl("/login?logout=true")
