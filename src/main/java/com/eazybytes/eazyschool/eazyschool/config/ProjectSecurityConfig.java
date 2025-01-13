@@ -39,7 +39,10 @@ public class ProjectSecurityConfig {
         return http.build();
     }
 
-
+    @Bean
+    public PasswordEncoder BcryptPasswordEncode(){
+        return new BCryptPasswordEncoder();
+    }
 
   /*  @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
